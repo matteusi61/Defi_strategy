@@ -72,7 +72,7 @@ if __name__ == '__main__':
         THE_GRAPH_API_KEY, loader_type=LoaderType.CSV).get_pool_decimals(pool_address)
 
     # Init the strategy
-    params: MergedTauResetParams = MergedTauResetParams(С=5000, ALPHA=1, BINS=3, INFO_TIME=24*30, INITIAL_BALANCE=1_000_000)
+    params: MergedTauResetParams = MergedTauResetParams(C=5000, ALPHA=1, BINS=3, U=1, INFO_TIME=24*30, INITIAL_BALANCE=1_000_000)
     MergedTauResetStrategy.token0_decimals = token0_decimals
     MergedTauResetStrategy.token1_decimals = token1_decimals
     MergedTauResetStrategy.tick_spacing = 60

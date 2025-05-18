@@ -72,7 +72,7 @@ if __name__ == '__main__':
         THE_GRAPH_API_KEY, loader_type=LoaderType.CSV).get_pool_decimals(pool_address)
 
     # Init the strategy
-    params: DistTauResetParams = DistTauResetParams(BINS=3, INFO_TIME=24*30, INITIAL_BALANCE=1_000_000)
+    params: DistTauResetParams = DistTauResetParams(BINS=3, INFO_TIME=24*30, U=1, INITIAL_BALANCE=1_000_000)
     DistTauResetStrategy.token0_decimals = token0_decimals
     DistTauResetStrategy.token1_decimals = token1_decimals
     DistTauResetStrategy.tick_spacing = 60
