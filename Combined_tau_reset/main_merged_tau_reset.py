@@ -81,11 +81,11 @@ if __name__ == '__main__':
         THE_GRAPH_API_KEY, loader_type=LoaderType.CSV).get_pool_decimals(pool_address)
 
     # Init the strategy
-    params: TauResetParams = TauResetParams(С=5000, ALPHA=1, BINS=3, INFO_TIME=24*30, INITIAL_BALANCE=1_000_000)
-    TauResetStrategy.token0_decimals = token0_decimals
-    TauResetStrategy.token1_decimals = token1_decimals
-    TauResetStrategy.tick_spacing = 60
-    strategy: TauResetStrategy = TauResetStrategy(debug=True, params=params)
+    params: MergedTauResetParams = MergedTauResetParams(С=5000, ALPHA=1, BINS=3, INFO_TIME=24*30, INITIAL_BALANCE=1_000_000)
+    MergedTauResetStrategy.token0_decimals = token0_decimals
+    MergedTauResetStrategy.token1_decimals = token1_decimals
+    MergedTauResetStrategy.tick_spacing = 60
+    strategy: MergedTauResetStrategy = MergedTauResetStrategy(debug=True, params=params)
 
     # Build observations
     entities = strategy.get_all_available_entities().keys()

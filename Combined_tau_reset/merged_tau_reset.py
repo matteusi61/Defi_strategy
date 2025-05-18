@@ -45,8 +45,8 @@ class MergedTauResetStrategy(BaseStrategy):
     last_center : float = 0
     tau : float = 30
 
-    def __init__(self, params: TauResetParams, debug: bool = False, *args, **kwargs):
-        self._params: TauResetParams = None  # set for type hinting
+    def __init__(self, params: MergedTauResetParams, debug: bool = False, *args, **kwargs):
+        self._params: MergedTauResetParams = None  # set for type hinting
         assert self.token0_decimals != -1 and self.token1_decimals != -1 and self.tick_spacing != -1
         super().__init__(params=params, debug=debug, *args, **kwargs)
         self.deposited_initial_funds = False

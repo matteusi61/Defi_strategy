@@ -36,14 +36,14 @@ if __name__ == '__main__':
     end_time = datetime(2025, 1, 1, tzinfo=UTC)
     fidelity = 'hour'
     experiment_name = f'rtau_{fidelity}_{ticker}_{pool_address}_{start_time.strftime("%Y-%m-%d")}_{end_time.strftime("%Y-%m-%d")}'
-    TauResetStrategy.token0_decimals = 6
-    TauResetStrategy.token1_decimals = 18
-    TauResetStrategy.tick_spacing = 60
+    MergedTauResetStrategy.token0_decimals = 6
+    MergedTauResetStrategy.token1_decimals = 18
+    MergedTauResetStrategy.tick_spacing = 60
 
     # Define MLFlow and Experiment configurations
     mlflow_config: MLFlowConfig = MLFlowConfig(
         mlflow_uri='http://127.0.0.1:8080',
-        experiment_name='tau_strategy_exp-2'
+        experiment_name='tau_merged_exp'
     )
     observations = build_observations(ticker, pool_address, THE_GRAPH_API_KEY, start_time, end_time, fidelity=fidelity)
     assert len(observations) > 0

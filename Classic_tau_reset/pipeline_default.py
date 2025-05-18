@@ -38,7 +38,7 @@ if __name__ == '__main__':
     # Define MLFlow and Experiment configurations
     mlflow_config: MLFlowConfig = MLFlowConfig(
         mlflow_uri='http://127.0.0.1:8080',
-        experiment_name='tau_strategy_exp-1'
+        experiment_name='tau_strategy_exp'
     )
     observations = build_observations(ticker, pool_address, THE_GRAPH_API_KEY, start_time, end_time, fidelity=fidelity)
     assert len(observations) > 0
