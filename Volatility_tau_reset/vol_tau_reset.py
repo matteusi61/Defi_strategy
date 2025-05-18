@@ -3,17 +3,14 @@ from typing import List
 
 from fractal.core.base import (Action, ActionToTake, BaseStrategy,
                                BaseStrategyParams, NamedEntity)
-from ..Modified_entity.uniswap_v3_lp_modified import UniswapV3LPConfig, UniswapV3LPEntity
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).parent.parent))
+from Modified_entity.uniswap_v3_lp_modified import UniswapV3LPConfig, UniswapV3LPEntity
 
 
 @dataclass
 class VolTauResetParams(BaseStrategyParams):
-    """
-    Parameters for the τ-reset strategy:
-    - TAU: The width of the price range (bucket) around the current price.
-    - INITIAL_BALANCE: The initial balance for liquidity allocation.
-    """
-
     INITIAL_BALANCE: float
     INFO_TIME : int
     ALPHA : float
@@ -21,19 +18,6 @@ class VolTauResetParams(BaseStrategyParams):
 
 
 class VolTauResetStrategy(BaseStrategy):
-    """
-    The τ-reset strategy manages liquidity in Uniswap v3 by concentrating it
-    within a price range around the current market price. If the price exits this range,
-    the liquidity is reallocated. If no position is open, it deposits funds first.
-
-    Based on
-    https://drops.dagstuhl.de/storage/00lipics/lipics-vol282-aft2023/LIPIcs.AFT.2023.25/LIPIcs.AFT.2023.25.pdf
-    """
-
-    # Decimals for token0 and token1 for Uniswap V3 LP Config
-    # This is pool-specific and should be set before running the strategy
-    # They are not in the BaseStrategyParams because they are not hyperparameters
-    # and are specific to the pool being traded consts.
     token0_decimals: int = -1
     token1_decimals: int = -1
     tick_spacing: int = -1
@@ -49,9 +33,6 @@ class VolTauResetStrategy(BaseStrategy):
         self.distribution = []
 
     def set_up(self):
-        """
-        Register the Uniswap V3 LP entity to manage liquidity in the pool.
-        """
         self.register_entity(NamedEntity(
             entity_name='UNISWAP_V3',
             entity=UniswapV3LPEntity(
@@ -74,10 +55,6 @@ class VolTauResetStrategy(BaseStrategy):
 
 
     def predict(self) -> List[ActionToTake]:
-        """
-        Main logic of the strategy. Checks if the price has moved outside
-        the predefined range and takes actions if necessary.
-        """
         # Retrieve the pool state from the registered entity
         uniswap_entity: UniswapV3LPEntity = self.get_entity('UNISWAP_V3')
         global_state = uniswap_entity.global_state
@@ -109,18 +86,12 @@ class VolTauResetStrategy(BaseStrategy):
         return []
 
     def _deposit_to_lp(self) -> List[ActionToTake]:
-        """
-        Deposit funds into the Uniswap LP if no position is currently open.
-        """
         return [ActionToTake(
             entity_name='UNISWAP_V3',
             action=Action(action='deposit', args={'amount_in_notional': self._params.INITIAL_BALANCE})
         )]
 
     def _rebalance(self) -> List[ActionToTake]:
-        """
-        Reallocate liquidity to a new range centered around the new price.
-        """
         actions = []
         entity: UniswapV3LPEntity = self.get_entity('UNISWAP_V3')
 

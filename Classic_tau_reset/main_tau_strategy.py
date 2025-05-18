@@ -24,12 +24,7 @@ def get_observations(
         pool_data: PoolHistory, price_data: PriceHistory,
         start_time: datetime = None, end_time: datetime = None
     ) -> List[Observation]:
-    """
-    Get observations from the pool and price data for the TauResetStrategy.
-
-    Returns:
-        List[Observation]: The observation list for TauResetStrategy.
-    """
+    
     observations_df: pd.DataFrame = pool_data.join(price_data)
     observations_df = observations_df.dropna()
     observations_df = observations_df.loc[start_time:end_time]
@@ -53,9 +48,7 @@ def build_observations(
         ticker: str, pool_address: str, api_key: str,
         start_time: datetime = None, end_time: datetime = None, fidelity: str = 'hour',
     ) -> List[Observation]:
-    """
-    Build observations for the TauResetStrategy from the given start and end time.
-    """
+
     if fidelity == 'hour':
         pool_data: PoolHistory = UniswapV3EthereumPoolHourDataLoader(
             api_key, pool_address, loader_type=LoaderType.CSV).read(with_run=True)
